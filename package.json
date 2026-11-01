@@ -1,0 +1,38 @@
+{
+  "name": "hdsh-whale-companion",
+  "version": "0.8.0",
+  "description": "HDSH Whale Companion: a headless DSH plugin for the App-only whale-girl character, chat, tasks, memory candidates and growth signals.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "dsh",
+    "deepseek-harness",
+    "cordis",
+    "companion",
+    "pet",
+    "whale"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "scripts": {
+    "test": "node test/smoke.mjs && node test/ws.mjs"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}
+

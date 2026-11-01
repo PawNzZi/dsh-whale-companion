@@ -1,0 +1,54 @@
+# 把 hdsh-whale-companion 插入当前 profile 的插件树。
+# 安装包后，把这一段加进 ~/.dsh/profiles/<profile>/cordis.patch.yml；
+# 如果插件管理器已经写好了，不要重复添加（同一个 id 只能出现一次）。
+- insert:
+    - id: whale-companion
+      name: hdsh-whale-companion
+      config:
+        enabled: true
+        # App 通过 /companion/health 读取这些字段
+        minAppVersion: 0.1.0
+        # 隐藏工作区与 Agent 元数据标签
+        sessionWorkspace: 鲸鱼娘
+        # 0.2.x 会在运行时注册这个专属预设（shell + 文件工具），
+        # 0.1.x 没有 register 时会退回 fallbackPreset。
+        agentPreset: whale-companion
+        fallbackPreset: standard
+        # app：高风险操作转成 companion.approval 事件交给 App 回答；
+        # never：直接拒绝，不打扰 App（无人值守/CI 用）。
+        approvalPolicy: app
+        # App 多久不回答就按拒绝处理（毫秒）
+        approvalTimeoutMs: 300000
+        # 单轮对话 / 后台任务超时（毫秒）
+        chatTimeoutMs: 120000
+        taskTimeoutMs: 600000
+        # 同时排队 + 执行的请求上限，超出返回 429
+        maxQueue: 4
+        # 隐藏 session 轮数上限，达到后自动换新 session（0 = 不轮换）
+        sessionMaxTurns: 40
+        # 人格 prompt section 的排序位置
+        promptOrder: 5000
+        # 独立工作区；路径留空时默认 <用户目录>/WhaleCompanion
+        workspaceEnabled: true
+        workspacePath: ''
+        workspaceTitle: 鲸鱼娘
+        # 附件：单文件上限（默认 20MB）与保留数量
+        maxUploadBytes: 20971520
+        maxFiles: 100
+        # 状态文件；留空时用 <DSH_HOME>/whale-companion/state.json
+        statePath: ''
+        # 重启后任务续跑：off / opt-in（任务带 resumeOnRestart）/ all
+        taskResume: opt-in
+        # /companion/events 心跳间隔（毫秒）
+        eventHeartbeatMs: 30000
+        # 主动消息（App 通过 POST /companion/config 的 settings.proactive 打开）
+        proactive:
+          enabled: false
+          # template：本地模板；model：隐藏 Agent 生成（只在空闲时）
+          mode: template
+          dailyLimit: 3
+          minIntervalMinutes: 120
+          quietStart: '22:30'
+          quietEnd: '08:00'
+          generationTimeoutMs: 60000
+          templates: []
